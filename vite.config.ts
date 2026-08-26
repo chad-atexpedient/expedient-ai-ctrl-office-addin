@@ -1,4 +1,4 @@
-﻿import { defineConfig, type Plugin } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import devCerts from "office-addin-dev-certs";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -263,8 +263,9 @@ export default defineConfig(async () => {
       https: httpsOptions,
     },
     preview: {
-      host: "localhost",
+      host: true,
       port: 4173,
+      https: false,
     },
     build: {
       outDir: "dist/app",
