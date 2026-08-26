@@ -63,14 +63,16 @@ jobs:
       - name: Build production container
         run: docker build --pull -f deploy/production/Dockerfile -t ctrl-byok-office-addin:ci .
       - name: Container vulnerability scan
-        uses: aquasecurity/trivy-action@v0.32.0
-        with:
-          image-ref: ctrl-byok-office-addin:ci
-          format: table
-          exit-code: '1'
-          ignore-unfixed: true
-          severity: CRITICAL,HIGH
-          version: v0.56.2
+        run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$HOME/.cache/trivy:/root/.cache/" \
+            aquasec/trivy:0.56.2 image \
+            --format table \
+            --exit-code 1 \
+            --ignore-unfixed \
+            --severity CRITICAL,HIGH \
+            ctrl-byok-office-addin:ci
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
         with:
