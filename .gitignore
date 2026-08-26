@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Local scratch / vendored asset working tree (not part of the product)
+.asset-scratch/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.cer
+config.env
+
+# Local Office add-in dev certs and caches
+.office-addin-dev-certs/
+.vite/
+.cache/
+
+# Local runtime state
+server/.data/
+server/.tokens/
+*.token-cache.json
+settings.local.json
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+logs/
+
+# Test / coverage output
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+evals/.runs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
