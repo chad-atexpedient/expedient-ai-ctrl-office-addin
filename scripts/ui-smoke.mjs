@@ -1,6 +1,7 @@
 import { chromium } from "playwright";
 
-const origin = (process.argv[2] || "https://localhost:3000").replace(/\/+$/, "");
+const cliArgs = process.argv.slice(2).filter((arg) => arg !== "--");
+const origin = (cliArgs[0] || "https://localhost:3000").replace(/\/+$/, "");
 const browser = await chromium.launch({ headless: true });
 const results = [];
 
