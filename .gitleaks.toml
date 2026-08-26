@@ -1,0 +1,19 @@
+# Gitleaks configuration for this repo.
+# Extends the default ruleset and allowlists confirmed false positives.
+title = "gitleaks-config"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+  [rules.allowlist]
+  description = "Confirmed false positive: zod route enum literal, not a credential"
+  regexTarget = "match"
+  regexes = [
+    '''\["openai-v1", "openwebui-api", "anthropic-v1", "custom"\]''',
+  ]
+  paths = [
+    '''src/lib/storage\.ts''',
+  ]
