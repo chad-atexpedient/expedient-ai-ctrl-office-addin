@@ -70,6 +70,7 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           severity: CRITICAL,HIGH
+          trivy-version: v0.56.2
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
         with:
