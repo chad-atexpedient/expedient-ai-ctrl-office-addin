@@ -40,6 +40,8 @@ jobs:
           grep -q 'pnpm install --frozen-lockfile' deploy/production/Dockerfile
           grep -q 'USER app' deploy/production/Dockerfile
           grep -q 'readyz' deploy/production/scripts/smoke-test.mjs
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
       - name: UI smoke prerequisites
         shell: bash
         run: |
