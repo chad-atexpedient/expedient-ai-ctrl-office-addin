@@ -13,6 +13,13 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          # gitleaks needs real commit history to diff a push's commit
+          # range; a shallow (depth=1) checkout makes that range
+          # unresolvable once a push contains more than one commit
+          # (e.g. a merge commit), so gitleaks fails the whole job with
+          # "ambiguous argument ... unknown revision" instead of scanning.
+          fetch-depth: 0
       - uses: pnpm/action-setup@v4
         with:
           version: 11.9.0
