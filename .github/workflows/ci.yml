@@ -40,6 +40,8 @@ jobs:
           grep -q 'pnpm install --frozen-lockfile' deploy/production/Dockerfile
           grep -q 'USER app' deploy/production/Dockerfile
           grep -q 'readyz' deploy/production/scripts/smoke-test.mjs
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
       - name: UI smoke prerequisites
         shell: bash
         run: |
@@ -61,13 +63,16 @@ jobs:
       - name: Build production container
         run: docker build --pull -f deploy/production/Dockerfile -t ctrl-byok-office-addin:ci .
       - name: Container vulnerability scan
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: ctrl-byok-office-addin:ci
-          format: table
-          exit-code: '1'
-          ignore-unfixed: true
-          severity: CRITICAL,HIGH
+        run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$HOME/.cache/trivy:/root/.cache/" \
+            aquasec/trivy:0.56.2 image \
+            --format table \
+            --exit-code 1 \
+            --ignore-unfixed \
+            --severity CRITICAL,HIGH \
+            ctrl-byok-office-addin:ci
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
         with:
