@@ -67,6 +67,12 @@ jobs:
       - name: Secret scan
         uses: gitleaks/gitleaks-action@v2
         continue-on-error: false
+        env:
+          # gitleaks-action requires an explicit GITHUB_TOKEN to scan
+          # pull_request events (it uses the API to diff the PR's commits);
+          # without it the step fails immediately with "GITHUB_TOKEN is
+          # now required to scan pull requests" regardless of findings.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build production container
         run: docker build --pull -f deploy/production/Dockerfile -t ctrl-byok-office-addin:ci .
       - name: Container vulnerability scan
